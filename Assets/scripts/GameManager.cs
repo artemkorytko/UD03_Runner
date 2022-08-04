@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject failScreen;
+
+    private Level _level;
     
     private GameObject _currentScreen;
 
@@ -75,11 +77,16 @@ public class GameManager : MonoBehaviour
     {
         TurnOffAllScreens();
         State = GameState.Start;
+        _level = GetComponentInChildren<Level>();
+        _level.GenerateLevel();
     }
 
     public void StartGame()
     {
         State = GameState.Game;
+        _level.Player.IsActive = true;
+        _level.Player.OnDied += OnDead;
+        _level.Player.OnFinish += OnWin;
     }
 
     private void OnDead()
