@@ -23,6 +23,7 @@ namespace DefaultNamespace
             {
                 _isHold = false;
                 _prevPosX = 0;
+                _relativeOffset = 0;
             }
 
             if (_isHold)

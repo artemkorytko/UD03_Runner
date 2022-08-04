@@ -10,6 +10,8 @@ namespace DefaultNamespace
         [SerializeField] private GameObject winScreen;
         [SerializeField] private GameObject failScreen;
 
+        private Level _level;
+
         enum GameState
         {
             None,
@@ -70,8 +72,10 @@ namespace DefaultNamespace
 
         private void Start()
         {
+            _level = GetComponentInChildren<Level>();
             TurnOffAllScreens();
             State = GameState.Start;
+            _level.GenerateLevel();
         }
 
         private void TurnOffAllScreens()
@@ -85,6 +89,9 @@ namespace DefaultNamespace
         public void StartGame()
         {
             State = GameState.Game;
+            _level.Player.IsActive = true;
+            _level.Player.OnDied += OnDead;
+            _level.Player.OnFinish += OnWin;
         }
 
         private void OnDead()
@@ -99,11 +106,13 @@ namespace DefaultNamespace
 
         public void RestartGame()
         {
+            _level.GenerateLevel();
             StartGame();
         }
 
         public void NextLevel()
         {
+            _level.GenerateLevel();
             StartGame();
         }
     }
