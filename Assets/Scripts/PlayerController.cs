@@ -62,8 +62,7 @@ namespace DefaultNamespace
             position.x = Mathf.Clamp(position.x, -roadDelta, roadDelta);
 
             Vector3 rotation = view.localRotation.eulerAngles;
-            rotation.y = Mathf.LerpAngle(rotation.y, offset != 0 ? Mathf.Sign(offset) * turnRotationAngle : 0,
-                lerpSpeed * Time.deltaTime);
+            rotation.y = Mathf.LerpAngle(rotation.y, offset != 0 ? Mathf.Sign(offset) * turnRotationAngle : 0, lerpSpeed * Time.deltaTime);
             view.localRotation = Quaternion.Euler(rotation);
 
 
