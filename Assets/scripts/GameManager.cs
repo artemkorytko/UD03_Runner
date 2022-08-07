@@ -75,9 +75,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _level = GetComponentInChildren<Level>();
         TurnOffAllScreens();
         State = GameState.Start;
-        _level = GetComponentInChildren<Level>();
         _level.GenerateLevel();
     }
 
@@ -101,11 +101,13 @@ public class GameManager : MonoBehaviour
     
     public void RestartGame()
     {
+        _level.GenerateLevel();
         StartGame();
     }
     
     public void NextLevel()
     {
+        _level.GenerateLevel();
         StartGame();
     }
 }

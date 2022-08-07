@@ -58,7 +58,7 @@ public class Level : MonoBehaviour
         float fullLenght = roadLenght * roadPartLenght;
         float currentLenght = roadPartLenght * 2;
         float damageOffsetX = roadPartWidth / 3;
-        float startPosX = roadLenght * 0.5f;
+        float startPosX = roadPartWidth * 0.5f;
 
         while (currentLenght<fullLenght)
         {

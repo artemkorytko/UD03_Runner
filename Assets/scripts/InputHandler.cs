@@ -23,6 +23,7 @@ public class InputHandler : MonoBehaviour
         {
             _isHold = true;
             _prevPosX = 0f;
+            _relativeOffset = 0;
         }
 
         if (_isHold)
