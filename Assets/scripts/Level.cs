@@ -77,8 +77,12 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void GeneratePlayer()
+    public void GeneratePlayer()
     {
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            Destroy(GameObject.FindWithTag("Player"));
+        }
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.localPosition = new Vector3(0, 0, roadPartLenght * 0.5f);
         Player = player.GetComponent<PlayerController>();

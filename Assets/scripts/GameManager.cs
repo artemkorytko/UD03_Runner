@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour
     
     public void RestartGame()
     {
-        _level.GenerateLevel();
-        StartGame();
+        _level.GeneratePlayer();
+        State = GameState.Start;
     }
     
     public void NextLevel()
