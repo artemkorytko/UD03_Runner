@@ -96,5 +96,6 @@ public class PlayerController : MonoBehaviour
         {
             Died();
         }
+        
     }
 }

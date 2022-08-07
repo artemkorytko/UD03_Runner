@@ -16,6 +16,7 @@ public class Level : MonoBehaviour
     [SerializeField] private GameObject damagePrefab;
     [SerializeField] private GameObject finishPrefab;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject destrWallPrefab;
 
     //private PlayerController _player;
     //public PlayerController Player => _player;
@@ -67,13 +68,29 @@ public class Level : MonoBehaviour
             currentLenght = Mathf.Clamp(currentLenght, 0f, fullLenght);
 
             int damagePosition = Random.Range(0, 3);
-            float damagePosX = -startPosX + damageOffsetX * damagePosition;
-
-            GameObject damage = Instantiate(damagePrefab, transform);
-            Vector3 localPosition = Vector3.zero;
-            localPosition.x = damagePosX;
-            localPosition.z = currentLenght;
-            damage.transform.localPosition = localPosition;
+            
+            InstantiateWall(damagePrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+            if (damagePosition==0)
+            {
+                damagePosition = 1;
+                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+                damagePosition = 2;
+                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+            }
+            else if (damagePosition==1)
+            {
+                damagePosition = 0;
+                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+                damagePosition = 2;
+                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+            }
+            else
+            {
+                damagePosition = 0;
+                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+                damagePosition = 1;
+                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+            }
         }
     }
 
@@ -86,5 +103,15 @@ public class Level : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.localPosition = new Vector3(0, 0, roadPartLenght * 0.5f);
         Player = player.GetComponent<PlayerController>();
+    }
+
+    private void InstantiateWall(GameObject wall, int pos, float startPosX, float damageOffsetX, float currentLenght)
+    {
+        float damagePosX = -startPosX + damageOffsetX * pos;
+        wall = Instantiate(wall, transform);
+        Vector3 localPosition = Vector3.zero;
+        localPosition.x = damagePosX;
+        localPosition.z = currentLenght;
+        wall.transform.localPosition = localPosition;
     }
 }

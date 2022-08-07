@@ -311,6 +311,7 @@ MonoBehaviour:
   damagePrefab: {fileID: 3184097509154074278, guid: b955ed8020b41fd409718ce4961e4b53, type: 3}
   finishPrefab: {fileID: 7373857775079895253, guid: bc7221e2487c6d6428c0531548f68c58, type: 3}
   playerPrefab: {fileID: 2859866693823943261, guid: 559daf9767c64b34ca4ff89ec2975dc9, type: 3}
+  destrWallPrefab: {fileID: 4671180221690073932, guid: ccdf2bda04661214b923b606fe661071, type: 3}
 --- !u!1 &458820536
 GameObject:
   m_ObjectHideFlags: 0
