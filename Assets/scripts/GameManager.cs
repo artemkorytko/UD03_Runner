@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     private GameState _state;
 
+    private DestroyableWall destrWall;
+
     private GameState State
     {
         get => _state;
@@ -102,6 +104,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         _level.GeneratePlayer();
+        _level.ReInstatiateDestrWalls();
         State = GameState.Start;
     }
     

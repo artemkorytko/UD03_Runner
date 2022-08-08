@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float turnRotationAngle = 20f;
     [SerializeField] private float lerpSpeed = 5f;
     [SerializeField] private Transform view;
+    [SerializeField] private GameObject deadEffect;
 
     private Animator _animator;
 
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        deadEffect.SetActive(false);
     }
 
     private void Update()
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void Died()
     {
+        deadEffect.SetActive(true);
         _animator.SetTrigger(Fail);
         IsActive = false;
         OnDied?.Invoke();

@@ -114,4 +114,18 @@ public class Level : MonoBehaviour
         localPosition.z = currentLenght;
         wall.transform.localPosition = localPosition;
     }
+
+    public void ReInstatiateDestrWalls()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.CompareTag("DestroyableWall"))
+            {
+                Vector3 position = transform.GetChild(i).gameObject.transform.localPosition;
+                Destroy(transform.GetChild(i).gameObject);
+                GameObject newWall = Instantiate(destrWallPrefab, transform);
+                newWall.transform.localPosition = position;
+            }
+        }
+    }
 }

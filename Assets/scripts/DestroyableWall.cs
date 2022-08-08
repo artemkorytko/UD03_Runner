@@ -8,8 +8,17 @@ public class DestroyableWall : MonoBehaviour
     [SerializeField] private GameObject effectPrefab;
     [SerializeField] private GameObject cubes;
 
-    private bool _isActive = false;
-    private float _timer = 2f;
+    private bool _isActive;
+    private float _timer;
+
+    private void Start()
+    {
+        _isActive = false;
+        _timer = 2f;
+        effectPrefab.SetActive(false);
+        cubes.SetActive(false);
+    }
+
     private void Update()
     {
         if (_isActive)
