@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
     private const string RUN = "Run";
     private const string FAIL = "Fail";
     private const string DANCE = "Dance";
+    private const string IDLE = "Idle";
+    private static readonly int Idle = Animator.StringToHash(IDLE);
     private static readonly int Run = Animator.StringToHash(RUN);
     private static readonly int Fail = Animator.StringToHash(FAIL);
     private static readonly int Dance = Animator.StringToHash(DANCE);
@@ -50,6 +52,11 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    public void SetIdle()
+    {
+        _animator.SetTrigger(Idle);
+    }
+    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.TryGetComponent(out FinishComponent finish))

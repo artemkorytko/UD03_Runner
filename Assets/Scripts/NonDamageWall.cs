@@ -6,4 +6,8 @@ public class NonDamageWall : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+    public void OnWall()
+    {
+        gameObject.SetActive(true);
+    }
 }

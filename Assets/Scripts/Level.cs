@@ -22,11 +22,11 @@ public class Level : MonoBehaviour
 
     private GameObject _currentRoad;
     private GameObject _currentDamage;
-    private List<GameObject> _savedObjects;
+    private List<NonDamageWall> _savedObjects;
 
     private void Awake()
     {
-        _savedObjects = new List<GameObject>();
+        _savedObjects = new List<NonDamageWall>();
     }
 
     public void GenerateLevel()
@@ -40,16 +40,16 @@ public class Level : MonoBehaviour
 
     public void Restart()
     {
-        ClearLevel();
-        LoadLevel();
-        GeneratePlayer();
+        RebuildWall();
+        Player.transform.localPosition = new Vector3(0, 0, roadPartLenght * 0.5f);
+        Player.SetIdle();
     }
 
-    private void LoadLevel()
+    private void RebuildWall()
     {
         foreach (var savedObject in _savedObjects)
         {
-            Instantiate(savedObject, savedObject.transform.position, savedObject.transform.rotation, gameObject.transform);
+            savedObject.OnWall();
         }
     }
     
@@ -69,13 +69,11 @@ public class Level : MonoBehaviour
         for (int i = 0; i < roadLenght; i++)
         {
             GameObject roadPart = Instantiate(roadPartPrefab, transform);
-            _savedObjects.Add(roadPart);
             roadPart.transform.localPosition = roadLocalPosition;
             roadLocalPosition.z += roadPartLenght;
         }
 
         GameObject finish = Instantiate(finishPrefab, transform);
-        _savedObjects.Add(finish);
         finish.transform.localPosition = roadLocalPosition;
     }
 
@@ -96,7 +94,6 @@ public class Level : MonoBehaviour
             float damagePosX = -startPosX + damageOffsetX * damagePosition;
 
             GameObject damage = Instantiate(damagePrefab, transform);
-            _savedObjects.Add(damage);
 
             Vector3 localPosition = Vector3.zero;
             localPosition.x = damagePosX;
@@ -124,7 +121,7 @@ public class Level : MonoBehaviour
     private void GenerateNoDamage(Vector3 damagePosition,float offset)
     {
         GameObject noDamage = Instantiate(noDamagePrefab, transform);
-        _savedObjects.Add(noDamage);
+        _savedObjects.Add(noDamage.GetComponentInChildren<NonDamageWall>());
         damagePosition.x += offset;
         noDamage.transform.localPosition = damagePosition;
     }
