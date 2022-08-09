@@ -8,18 +8,24 @@ namespace DefaultNamespace
         private const string RUN = "Run";
         private const string FAIL = "Fail";
         private const string DANCE = "Dance";
+
         private static readonly int Run = Animator.StringToHash(RUN);
         private static readonly int Fail = Animator.StringToHash(FAIL);
         private static readonly int Dance = Animator.StringToHash(DANCE);
-        [SerializeField] private float roadWidth = 3;
+
+        [Header("Move settings")] [SerializeField]
+        private float roadWidth = 3;
+
         [SerializeField] private float forwardSpeed = 5f;
         [SerializeField] private float turnRotationAngle = 20;
         [SerializeField] private float lerpSpeed = 5;
-        [SerializeField] private InputHandler inputHandler;
+
+        [Header("References")] [SerializeField]
+        private InputHandler inputHandler;
+
         [SerializeField] private Transform view;
 
         private Animator _animator;
-
         private bool _isActive;
 
         public event Action OnDied;
@@ -77,6 +83,7 @@ namespace DefaultNamespace
 
         private void OnCollisionEnter(Collision collision)
         {
+            Debug.Log("OnCollisionEnter");
             if (collision.gameObject.GetComponent<FinishComponent>())
             {
                 Finish();
@@ -85,6 +92,16 @@ namespace DefaultNamespace
             if (collision.gameObject.CompareTag("Wall"))
             {
                 Died();
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("OnTriggerEnter");
+            GlassWall glassWall = other.gameObject.GetComponentInParent<GlassWall>();
+            if (glassWall)
+            {
+                glassWall.CrashWall();
             }
         }
 

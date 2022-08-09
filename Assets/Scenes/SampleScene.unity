@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a7fca51808546cab988a1ed790b4200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadLenght: 15
+  roadPartsCount: 15
   minDamageOffset: 2
   maxDamageOffset: 5
   roadPartLenght: 5
@@ -388,6 +388,7 @@ MonoBehaviour:
   damagePrefab: {fileID: 8121701305499182356, guid: fd7be188447b147a2a7b84687f863a0c, type: 3}
   finishPrefab: {fileID: 4601095598535179481, guid: f1a2480996ee64a00b8a85e0cf79f780, type: 3}
   playerPrefab: {fileID: 2262286319631013565, guid: b63aa71ff6813461bab9cb91b73ee960, type: 3}
+  glassWallPrefab: {fileID: 8121701305499182356, guid: 5a7a98d749d194452986b0cf4bd667b9, type: 3}
 --- !u!1 &482955349
 GameObject:
   m_ObjectHideFlags: 0
