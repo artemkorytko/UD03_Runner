@@ -9,7 +9,9 @@ public class EffectGlass : MonoBehaviour
 
    private void OnTriggerEnter(Collider other)
    {
-      other.CompareTag("Player");
-      Instantiate(GlassEffectPrefab, transform.position, Quaternion.identity);
+      if (other.CompareTag("Player"))
+      {
+         Instantiate(GlassEffectPrefab, transform.position, Quaternion.identity);
+      }
    }
 }

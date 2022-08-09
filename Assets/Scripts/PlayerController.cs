@@ -93,8 +93,12 @@ namespace DefaultNamespace
 
         private void OnTriggerEnter(Collider other)
         {
-            other.CompareTag("Glass");
-            other.gameObject.SetActive(false);
+            if (other.CompareTag("Glass"))
+            {
+                other.gameObject.SetActive(false);
+            }
+            
+            
         }
 
         private void Died()

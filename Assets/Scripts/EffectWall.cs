@@ -9,7 +9,11 @@ public class EffectWall : MonoBehaviour
 
    private void OnCollisionEnter(Collision collision)
    {
-      collision.gameObject.CompareTag("Player");
-      Instantiate(WallEffectPrefab, transform.position, Quaternion.identity);
+      if (collision.gameObject.CompareTag("Player"))
+      {
+         Instantiate(WallEffectPrefab, transform.position, Quaternion.identity);
+      }
+      
+      
    }
 }

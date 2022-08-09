@@ -34,12 +34,23 @@ public class Level : MonoBehaviour
    public void RestartLevel()
    {
       DestroyPlayer();
+      ReturnGlass();
       GeneratePlayer();
+   }
+
+
+   public void ReturnGlass()
+   {
+      // if (Player == null)
+      // {
+      //    gl
+      // }
+
    }
 
    private void DestroyPlayer()
    {
-      Destroy(GameObject.FindGameObjectWithTag("Player"));
+      Destroy(Player.gameObject);
    }
 
    private void Clear()
@@ -93,7 +104,7 @@ public class Level : MonoBehaviour
    {
       float fullLength = roadLength * roadPartLength;
       float currentLength = roadPartLength * 3;
-      float damageOffsetX = roadPartWidth / 3;
+      float glassOffsetX = roadPartWidth / 3;
       float startPosX = roadPartWidth * 0.5f;
 
       while (currentLength < fullLength)
@@ -102,14 +113,14 @@ public class Level : MonoBehaviour
          currentLength += zOffset;
          currentLength = Mathf.Clamp(currentLength, 0f, fullLength);
 
-         int damagePosition = Random.Range(0, 3);
-         float damagePosX = -startPosX + damageOffsetX * damagePosition;
+         int glassPosition = Random.Range(0, 3);
+         float glassPosX = -startPosX + glassOffsetX * glassPosition;
 
-         GameObject damage = Instantiate(glassPrefab, transform);
+         GameObject glass = Instantiate(glassPrefab, transform);
          Vector3 localPosition = Vector3.zero;
-         localPosition.x = damagePosX;
+         localPosition.x = glassPosX;
          localPosition.z = currentLength;
-         damage.transform.localPosition = localPosition;
+         glass.transform.localPosition = localPosition;
       }
    }
 
