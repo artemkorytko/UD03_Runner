@@ -7,31 +7,14 @@ public class DestroyableWall : MonoBehaviour
 {
     [SerializeField] private GameObject effectPrefab;
     [SerializeField] private GameObject cubes;
-
-    private bool _isActive;
-    private float _timer;
+    
 
     private void Start()
     {
-        _isActive = false;
-        _timer = 2f;
         effectPrefab.SetActive(false);
         cubes.SetActive(false);
     }
-
-    private void Update()
-    {
-        if (_isActive)
-        {
-            _timer -= Time.deltaTime;
-            if (_timer<0f)
-            {
-                cubes.SetActive(false);
-                effectPrefab.SetActive(false);
-                _isActive = false;
-            }
-        }
-    }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -40,7 +23,6 @@ public class DestroyableWall : MonoBehaviour
             gameObject.SetActive(false);
             effectPrefab.SetActive(true);
             cubes.SetActive(true);
-            _isActive = true;
         }
     }
 }

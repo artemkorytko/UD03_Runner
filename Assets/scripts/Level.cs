@@ -117,12 +117,14 @@ public class Level : MonoBehaviour
 
     public void ReInstatiateDestrWalls()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        int count = transform.childCount;
+        for (int i = 0; i < count; i++)
         {
             if (transform.GetChild(i).gameObject.CompareTag("DestroyableWall"))
             {
-                Vector3 position = transform.GetChild(i).gameObject.transform.localPosition;
-                Destroy(transform.GetChild(i).gameObject);
+                GameObject child = transform.GetChild(i).gameObject;
+                Vector3 position = child.transform.localPosition;
+                Destroy(child);
                 GameObject newWall = Instantiate(destrWallPrefab, transform);
                 newWall.transform.localPosition = position;
             }
