@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Level : MonoBehaviour
 {
@@ -19,21 +22,38 @@ public class Level : MonoBehaviour
 
     private GameObject _currentRoad;
     private GameObject _currentDamage;
+    private List<GameObject> _savedObjects;
+
+    private void Awake()
+    {
+        _savedObjects = new List<GameObject>();
+    }
 
     public void GenerateLevel()
     {
-        Clear();
+        _savedObjects.Clear();
+        ClearLevel();
         GenerateRoad();
-        GenerateDamage();
+        GenerateObstacles();
         GeneratePlayer();
     }
 
     public void Restart()
     {
-        Clear();
+        ClearLevel();
+        LoadLevel();
+        GeneratePlayer();
     }
 
-    private void Clear()
+    private void LoadLevel()
+    {
+        foreach (var savedObject in _savedObjects)
+        {
+            Instantiate(savedObject, savedObject.transform.position, savedObject.transform.rotation, gameObject.transform);
+        }
+    }
+    
+    private void ClearLevel()
     {
         Player = null;
         for (int i = 0; i < transform.childCount; i++)
@@ -49,16 +69,17 @@ public class Level : MonoBehaviour
         for (int i = 0; i < roadLenght; i++)
         {
             GameObject roadPart = Instantiate(roadPartPrefab, transform);
+            _savedObjects.Add(roadPart);
             roadPart.transform.localPosition = roadLocalPosition;
-
             roadLocalPosition.z += roadPartLenght;
         }
 
         GameObject finish = Instantiate(finishPrefab, transform);
+        _savedObjects.Add(finish);
         finish.transform.localPosition = roadLocalPosition;
     }
 
-    private void GenerateDamage()
+    private void GenerateObstacles()
     {
         float fullLength = roadLenght * roadPartLenght;
         float currentLength = roadPartLenght * 2;
@@ -75,30 +96,39 @@ public class Level : MonoBehaviour
             float damagePosX = -startPosX + damageOffsetX * damagePosition;
 
             GameObject damage = Instantiate(damagePrefab, transform);
+            _savedObjects.Add(damage);
 
             Vector3 localPosition = Vector3.zero;
             localPosition.x = damagePosX;
             localPosition.z = currentLength;
             damage.transform.localPosition = localPosition;
-
-            float noDamagePosX = 0;
-            if (damagePosition > 0)
-            {
-                 noDamagePosX = -startPosX + damageOffsetX * damagePosition - damageOffsetX;
-            } 
-            if (damagePosition < 2)
-            {
-                noDamagePosX = -startPosX + damageOffsetX * damagePosition + damageOffsetX;
-            } 
             
-            GameObject noDamage = Instantiate(noDamagePrefab, transform);
-            Vector3 localPositionNoDamage = Vector3.zero;
-            localPositionNoDamage.x = noDamagePosX;
-            localPositionNoDamage.z = currentLength;
-            noDamage.transform.localPosition = localPositionNoDamage;
+            if (damagePosition == 0)
+            {
+                GenerateNoDamage(localPosition, damageOffsetX);
+                GenerateNoDamage(localPosition, damageOffsetX * 2);
+            } 
+            if (damagePosition == 1)
+            {
+                GenerateNoDamage(localPosition, damageOffsetX);
+                GenerateNoDamage(localPosition, -damageOffsetX);
+            } 
+            if (damagePosition == 2)
+            {
+                GenerateNoDamage(localPosition, -damageOffsetX);
+                GenerateNoDamage(localPosition, -damageOffsetX * 2);
+            }
         }
     }
 
+    private void GenerateNoDamage(Vector3 damagePosition,float offset)
+    {
+        GameObject noDamage = Instantiate(noDamagePrefab, transform);
+        _savedObjects.Add(noDamage);
+        damagePosition.x += offset;
+        noDamage.transform.localPosition = damagePosition;
+    }
+    
     private void GeneratePlayer()
     {
         GameObject player = Instantiate(playerPrefab, transform);

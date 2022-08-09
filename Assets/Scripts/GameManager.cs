@@ -88,23 +88,31 @@ public class GameManager : MonoBehaviour
     private void OnDead()
     {
         State = GameState.Fail;
+        Unsubscribe();
     }
 
     private void OnWin()
     {
         State = GameState.Win;
+        Unsubscribe();
     }
 
+    private void Unsubscribe()
+    {
+        _level.Player.OnDied -= OnDead;
+        _level.Player.OnFinish -= OnWin;
+    }
+    
     public void RestartGame()
     {
-        _level.GenerateLevel();
-        StartGame();
+        _level.Restart();
+        State = GameState.Start;
     }
 
     public void NextLevel()
     {
         _level.GenerateLevel();
-        StartGame();
+        State = GameState.Start;
     }
 } 
 
