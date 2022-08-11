@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         _level.RestartLevel();
+        _level.ReturnGlass();
         StartGame();
     }
 

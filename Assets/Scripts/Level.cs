@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Level : MonoBehaviour
 {
@@ -17,9 +17,7 @@ public class Level : MonoBehaviour
    [SerializeField] private GameObject glassPrefab;
    [SerializeField] private GameObject finishPrefab;
    [SerializeField] private GameObject playerPrefab;
-
-   // private PlayerController _player;
-   // public PlayerController Player=> _player;
+   
    public PlayerController Player { get; private set; }
 
    public void GenerateLevel()
@@ -27,24 +25,30 @@ public class Level : MonoBehaviour
       Clear();
       GenerateRoad();
       GenerateDamage();
-      GenerateGlass();
       GeneratePlayer();
    }
 
    public void RestartLevel()
    {
       DestroyPlayer();
-      ReturnGlass();
       GeneratePlayer();
    }
 
 
    public void ReturnGlass()
    {
-      // if (Player == null)
-      // {
-      //    gl
-      // }
+      int count = transform.childCount;
+      for (int i = 0; i < count; i++)
+      {
+         if (transform.GetChild(i).gameObject.CompareTag("Glass"))
+         {
+            GameObject child = transform.GetChild(i).gameObject;
+            Vector3 position = child.transform.localPosition;
+            Destroy(child);
+            GameObject newGlass = Instantiate(glassPrefab, transform);
+            newGlass.transform.localPosition = position;
+         }
+      }
 
    }
 
@@ -81,50 +85,40 @@ public class Level : MonoBehaviour
       float fullLength = roadLength * roadPartLength;
       float currentLength = roadPartLength * 2;
       float damageOffsetX = roadPartWidth / 3;
-      float startPosX = roadPartWidth * 0.5f;
+      float startPosX = roadPartWidth * 0.5f; 
 
-      while (currentLength < fullLength)
+      while (currentLength < fullLength) 
       {
-         float zOffset = Random.Range(minDamageOffset, maxDamageOffset) + minDamageOffset;
+         float zOffset = Random.Range(minDamageOffset, maxDamageOffset) + minDamageOffset; 
          currentLength += zOffset;
          currentLength = Mathf.Clamp(currentLength, 0f, fullLength);
 
-         int damagePosition = Random.Range(0, 3);
-         float damagePosX = -startPosX + damageOffsetX * damagePosition;
+         List<int> tempList = new List<int>() {0, 1, 2}; 
+
+         int damagePosition = Random.Range(0, 3); 
+         int tempValue = tempList[damagePosition]; 
+         tempList.Remove(tempValue);
+         float damagePosX = -startPosX + damageOffsetX * tempValue;
 
          GameObject damage = Instantiate(damagePrefab, transform);
          Vector3 localPosition = Vector3.zero;
-         localPosition.x = damagePosX;
-         localPosition.z = currentLength;
+         localPosition.x = damagePosX; // -3 -1 1
+         localPosition.z = currentLength; // 14, 75
          damage.transform.localPosition = localPosition;
-      }
-   }
-   
-   private void GenerateGlass()
-   {
-      float fullLength = roadLength * roadPartLength;
-      float currentLength = roadPartLength * 3;
-      float glassOffsetX = roadPartWidth / 3;
-      float startPosX = roadPartWidth * 0.5f;
 
-      while (currentLength < fullLength)
-      {
-         float zOffset = Random.Range(minDamageOffset, maxDamageOffset) + minDamageOffset;
-         currentLength += zOffset;
-         currentLength = Mathf.Clamp(currentLength, 0f, fullLength);
-
-         int glassPosition = Random.Range(0, 3);
-         float glassPosX = -startPosX + glassOffsetX * glassPosition;
-
-         GameObject glass = Instantiate(glassPrefab, transform);
-         Vector3 localPosition = Vector3.zero;
-         localPosition.x = glassPosX;
-         localPosition.z = currentLength;
-         glass.transform.localPosition = localPosition;
+         foreach (var temp in tempList)
+         {
+            GameObject glassWall = Instantiate(glassPrefab, transform);
+            localPosition = Vector3.zero;
+            damagePosX = -startPosX + damageOffsetX * temp;
+            localPosition.x = damagePosX;
+            localPosition.z = currentLength;
+            glassWall.transform.localPosition = localPosition;
+         }
       }
    }
 
-   private void GeneratePlayer()
+      private void GeneratePlayer()
    {
       GameObject player = Instantiate(playerPrefab, transform);
       player.transform.localPosition = new Vector3(0, 0, roadPartLength * 0.5f);
