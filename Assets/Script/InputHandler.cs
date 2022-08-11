@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using System;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class InputHandler: MonoBehaviour
+    public class InputHandler : MonoBehaviour
     {
         private float _prevPosX = 0f;
         private bool _isHold;
@@ -18,11 +19,14 @@ namespace DefaultNamespace
                 _isHold = true;
                 _prevPosX = Input.mousePosition.x;
             }
+
             if (Input.GetMouseButtonUp(0))
             {
                 _isHold = false;
                 _prevPosX = 0;
+                _relativeOffset = 0;
             }
+
             if (_isHold)
             {
                 float offset = _prevPosX - Input.mousePosition.x;
@@ -31,5 +35,4 @@ namespace DefaultNamespace
             }
         }
     }
-
 }

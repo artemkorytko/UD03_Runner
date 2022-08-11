@@ -49,9 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed6b089892f03940aeabefc5e23ec81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadWidth: 3
+  roadWidth: 4
   forwardSpeed: 5
-  turnRotationAngle: 20
+  turnRotationAngle: 10
   lerpSpeed: 5
   inputHandler: {fileID: 1372885947595684491}
   view: {fileID: 5843797133618923108}
