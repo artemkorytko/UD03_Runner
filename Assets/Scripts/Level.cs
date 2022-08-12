@@ -49,7 +49,6 @@ public class Level : MonoBehaviour
             newGlass.transform.localPosition = position;
          }
       }
-
    }
 
    private void DestroyPlayer()
