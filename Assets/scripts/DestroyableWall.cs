@@ -7,18 +7,16 @@ public class DestroyableWall : MonoBehaviour
 {
     [SerializeField] private GameObject effectPrefab;
     [SerializeField] private GameObject cubes;
-    
 
     private void Start()
     {
         effectPrefab.SetActive(false);
         cubes.SetActive(false);
     }
-    
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.GetComponent<PlayerController>())
         {
             gameObject.SetActive(false);
             effectPrefab.SetActive(true);

@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardSpeed: 5
   inputHandler: {fileID: 9182759687930349051}
-  roadWidth: 3
+  roadWidth: 5
   turnRotationAngle: 20
   lerpSpeed: 5
   view: {fileID: 2322433430262153460}

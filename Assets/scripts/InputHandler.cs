@@ -8,6 +8,7 @@ public class InputHandler : MonoBehaviour
     private float _prevPosX = 0f;
     private bool _isHold;
     private float _relativeOffset = 0f;
+    private float _sensetivy = 3f;
 
     public float HorizontalAxis => -_relativeOffset;
 
@@ -29,7 +30,7 @@ public class InputHandler : MonoBehaviour
         if (_isHold)
         {
             float offset = _prevPosX - Input.mousePosition.x;
-            _relativeOffset = offset / Screen.width;
+            _relativeOffset = offset / Screen.width * _sensetivy;
             _prevPosX = Input.mousePosition.x;
         }
     }

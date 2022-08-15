@@ -12,6 +12,8 @@ public class Level : MonoBehaviour
     [SerializeField] private float roadPartLenght = 5f;
     [SerializeField] private float roadPartWidth = 6f;
 
+    [SerializeField] private int countOfWallsInLine = 3;
+
     [SerializeField] private GameObject roadPartPrefab;
     [SerializeField] private GameObject damagePrefab;
     [SerializeField] private GameObject finishPrefab;
@@ -67,38 +69,31 @@ public class Level : MonoBehaviour
             currentLenght += zOffset;
             currentLenght = Mathf.Clamp(currentLenght, 0f, fullLenght);
 
-            int damagePosition = Random.Range(0, 3);
-            
+            int damagePosition = Random.Range(0, countOfWallsInLine);
             InstantiateWall(damagePrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
-            if (damagePosition==0)
+
+            List<int> positions = new List<int>();
+            for (int i = 0; i < countOfWallsInLine; i++)
             {
-                damagePosition = 1;
-                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
-                damagePosition = 2;
-                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+                if (i!=damagePosition)
+                {
+                    positions.Add(i);
+                }
             }
-            else if (damagePosition==1)
+
+            foreach (int pos in positions)
             {
-                damagePosition = 0;
-                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
-                damagePosition = 2;
-                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+                InstantiateWall(destrWallPrefab, pos, startPosX, damageOffsetX, currentLenght);
             }
-            else
-            {
-                damagePosition = 0;
-                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
-                damagePosition = 1;
-                InstantiateWall(destrWallPrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
-            }
+            
         }
     }
 
     public void GeneratePlayer()
     {
-        if (GameObject.FindWithTag("Player") != null)
+        if (Player != null)
         {
-            Destroy(GameObject.FindWithTag("Player"));
+            Destroy(Player.gameObject);
         }
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.localPosition = new Vector3(0, 0, roadPartLenght * 0.5f);
@@ -117,17 +112,23 @@ public class Level : MonoBehaviour
 
     public void ReInstatiateDestrWalls()
     {
-        int count = transform.childCount;
-        for (int i = 0; i < count; i++)
+        int countOfChildrens = transform.childCount;
+        List<GameObject> listOfChildren = new List<GameObject>();
+        
+        for (int i = 0; i < countOfChildrens; i++)
         {
-            if (transform.GetChild(i).gameObject.CompareTag("DestroyableWall"))
+            if (transform.GetChild(i).GetChild(0).GetComponent<DestroyableWall>())
             {
-                GameObject child = transform.GetChild(i).gameObject;
-                Vector3 position = child.transform.localPosition;
-                Destroy(child);
-                GameObject newWall = Instantiate(destrWallPrefab, transform);
-                newWall.transform.localPosition = position;
+                listOfChildren.Add(transform.GetChild(i).gameObject);
             }
+        }
+
+        foreach (GameObject wall in listOfChildren)
+        {
+            Vector3 position = wall.transform.localPosition;
+            Destroy(wall);
+            GameObject newWall = Instantiate(destrWallPrefab, transform);
+            newWall.transform.localPosition = position;
         }
     }
 }

@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class CubesDestroer : MonoBehaviour
 {
-    private float _timer;
+    [SerializeField] private float timerForDestroy = 2f;
     private void Start()
     {
-        _timer = 2f;
+        StartCoroutine(DestroyThisWall(timerForDestroy));
     }
 
-    private void Update()
+    IEnumerator DestroyThisWall(float timer)
     {
-        _timer -= Time.deltaTime;
-        if (_timer<0)
-        {
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(timer);
+        Destroy(gameObject);
     }
+    
 }
