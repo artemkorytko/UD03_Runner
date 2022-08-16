@@ -5,14 +5,28 @@ namespace DefaultNamespace
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private GameObject startScreen;
+        public static GameManager Instance;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
+        }
+
+        public GameObject startScreen;
         [SerializeField] private GameObject gameScreen;
         [SerializeField] private GameObject winScreen;
         [SerializeField] private GameObject failScreen;
 
         private Level _level;
 
-        enum GameState
+        public enum GameState
         {
             None,
             Start,
@@ -23,7 +37,7 @@ namespace DefaultNamespace
 
         private GameState _state;
 
-        private GameState State
+        public GameState State
         {
             get => _state;
             set

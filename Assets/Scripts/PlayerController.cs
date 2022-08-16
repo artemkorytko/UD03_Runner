@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
@@ -27,6 +29,9 @@ namespace DefaultNamespace
 
         private Animator _animator;
         private bool _isActive;
+        private bool _isWaitFor75Z;
+
+        private Coroutine _coroutine;
 
         public event Action OnDied;
         public event Action OnFinish;
@@ -52,7 +57,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            if (!IsActive)
+            if (GameManager.Instance.State != GameManager.GameState.Game)
                 return;
 
             Move();
@@ -83,7 +88,6 @@ namespace DefaultNamespace
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log("OnCollisionEnter");
             if (collision.gameObject.GetComponent<FinishComponent>())
             {
                 Finish();
@@ -91,13 +95,13 @@ namespace DefaultNamespace
 
             if (collision.gameObject.CompareTag("Wall"))
             {
+                collision.gameObject.SetActive(false);
                 Died();
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("OnTriggerEnter");
             GlassWall glassWall = other.gameObject.GetComponentInParent<GlassWall>();
             if (glassWall)
             {
@@ -105,6 +109,17 @@ namespace DefaultNamespace
             }
         }
 
+        private void LateUpdate()
+        {
+            if (_isWaitFor75Z)
+            {
+                if (transform.position.z > 75f)
+                {
+                    Time.timeScale -= Time.deltaTime * 2;
+                }
+            }
+        }
+        
         private void Died()
         {
             _animator.SetTrigger(Fail);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -32,6 +33,11 @@ namespace DefaultNamespace
                 _relativeOffset = offset / Screen.width;
                 _prevPosX = Input.mousePosition.x;
             }
+        }
+
+        public IEnumerator Cor()
+        {
+            yield break;
         }
     }
 }

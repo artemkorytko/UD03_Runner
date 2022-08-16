@@ -18,6 +18,10 @@ namespace DefaultNamespace
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject glassWallPrefab;
 
+        [SerializeField] private WallConfig wallConfig;
+
+        [SerializeField] private WallPool pool;
+
         // private PlayerController _player;
         //
         // public PlayerController Player => _player;
@@ -29,6 +33,12 @@ namespace DefaultNamespace
             GenerateRoad();
             GenerateDamage();
             GeneratePlayer();
+        }
+
+        public void OnHit()
+        {
+         
+            
         }
 
         private void Clear()
@@ -76,11 +86,13 @@ namespace DefaultNamespace
                 tempList.Remove(tempValue); // удалил полученный элемент
                 float damagePosX = -startPosX + damageOffsetX * tempValue; //-3 + 2 * 0=-3 /-3 + 2 * 1=-1 /-3 + 2 * 2=-1
 
-                GameObject damage = Instantiate(damagePrefab, transform);
+                GameObject damage = pool.GetWall();
                 Vector3 localPosition = Vector3.zero;
                 localPosition.x = damagePosX; // -3 -1 1
                 localPosition.z = currentLength; // 14, 75
                 damage.transform.localPosition = localPosition;
+                damage.SetActive(true);
+                damage.GetComponentInChildren<MeshRenderer>().material.color = wallConfig.GetRandomColor();
 
                 foreach (var temp in tempList) //2 элемента остаётся
                 {
