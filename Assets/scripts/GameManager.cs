@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ADS_scripts;
+using Unity.Services.Analytics;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -25,7 +27,14 @@ public class GameManager : MonoBehaviour
 
     private GameState _state;
 
-    private DestroyableWall destrWall;
+    private DestroyableWall _destrWall;
+
+    private InterstitialAd _interAD;
+    private RewardedAdsButton _rewardedAdsButton;
+    private int _loseCount;
+    private int _winCount;
+   
+    
 
     private GameState State
     {
@@ -74,6 +83,7 @@ public class GameManager : MonoBehaviour
         failScreen.SetActive(false);
         gameScreen.SetActive(false);
     }
+    
 
     private void Start()
     {
@@ -81,6 +91,10 @@ public class GameManager : MonoBehaviour
         TurnOffAllScreens();
         State = GameState.Start;
         _level.GenerateLevel();
+         _interAD = FindObjectOfType<AdsManager>().GetComponent<InterstitialAd>();
+         _rewardedAdsButton = FindObjectOfType<AdsManager>().GetComponent<RewardedAdsButton>();
+         _winCount = 0;
+         _loseCount = 0;
     }
 
     public void StartGame()
@@ -93,11 +107,29 @@ public class GameManager : MonoBehaviour
 
     private void OnDead()
     {
+        var data = new Dictionary<string, object>
+        {
+            { "lost_count", _loseCount++ }
+        };
+        AnalyticsService.Instance.CustomData("LostEvent", data);
+        AnalyticsService.Instance.Flush();
+        
+        _rewardedAdsButton.LoadAd();
         State = GameState.Fail;
+        
+        
     }
 
     private void OnWin()
     {
+        var data = new Dictionary<string, object>
+        {
+            { "win_count", _winCount++ }
+        };
+        AnalyticsService.Instance.CustomData("WinEvent", data);
+        AnalyticsService.Instance.Flush();
+        
+        _interAD.LoadAd();
         State = GameState.Win;
     }
     
@@ -106,6 +138,7 @@ public class GameManager : MonoBehaviour
         _level.GeneratePlayer();
         _level.ReInstatiateDestrWalls();
         State = GameState.Start;
+
     }
     
     public void NextLevel()
