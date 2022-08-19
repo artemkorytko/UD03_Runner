@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    
+    
     [SerializeField] private int roadLenght = 15;
     [SerializeField] private float minDamageOffset = 2f;
     [SerializeField] private float maxDamageOffset = 5f;

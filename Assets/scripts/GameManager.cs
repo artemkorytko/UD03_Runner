@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     private GameState _state;
 
     private DestroyableWall destrWall;
+    
+    
 
     private GameState State
     {
