@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        AnalyticsManager.Instance.LevelStart();
         State = GameState.Game;
         _level.Player.IsActive = true;
         _level.Player.OnDied += OnDead;
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     private void OnWin()
     {
+        AnalyticsManager.Instance.LevelFinish();
         State = GameState.Win;
         Unsubscribe();
     }
