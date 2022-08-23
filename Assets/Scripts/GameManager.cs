@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -106,7 +107,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         _level.RestartLevel();
-        _level.ReturnGlass();
         StartGame();
     }
 

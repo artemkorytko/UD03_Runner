@@ -1,19 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class EffectWall : MonoBehaviour
 {
-   [SerializeField] private GameObject WallEffectPrefab;
+   [SerializeField] private GameObject wallEffectPrefab;
 
    private void OnCollisionEnter(Collision collision)
    {
-      if (collision.gameObject.CompareTag("Player"))
+      if (collision.gameObject.GetComponent<PlayerController>())
       {
-         Instantiate(WallEffectPrefab, transform.position, Quaternion.identity);
+         CrashWall();
       }
-      
-      
+   }
+
+   public void CrashWall()
+   {
+      Instantiate(wallEffectPrefab, transform.position, Quaternion.identity);
    }
 }

@@ -1,27 +1,92 @@
+using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
+public enum LevelChange
+{
+   None,
+   LevelOne,
+   LevelTwo,
+   LevelThree
+}
 public class Level : MonoBehaviour
 {
-   [SerializeField] private int roadLength = 15;
-   [SerializeField] private float minDamageOffset = 2;
-   [SerializeField] private float maxDamageOffset = 5;
-   
-   [SerializeField] private float roadPartLength = 5f;
-   [SerializeField] private float roadPartWidth = 6f;
+   private void Awake()
+   {
+      LoadLevelPrefabs(_levelPrefabs);
+   }
 
-   [SerializeField] private GameObject roadPartPrefab;
-   [SerializeField] private GameObject damagePrefab;
-   [SerializeField] private GameObject glassPrefab;
-   [SerializeField] private GameObject finishPrefab;
-   [SerializeField] private GameObject playerPrefab;
+   [SerializeField] private LevelConfig[] levelConfigs;
+   [SerializeField] private LevelChange _levelChange;
+   [SerializeField] private LevelPrefabs _levelPrefabs;
+
+   private int roadLength;
+   private float minDamageOffset;
+   private float maxDamageOffset;
+   private float roadPartLength;
+   private float roadPartWidth;
    
+   private GameObject roadPartPrefab;
+   private GameObject damagePrefab;
+   private GameObject glassPrefab;
+   private GameObject finishPrefab;
+   private GameObject playerPrefab;
+   
+   [SerializeField] private WallConfig wallConfig;
+   private WallPool pool;
+
    public PlayerController Player { get; private set; }
 
+   private LevelChange currentLevel;
+   private LevelChange LevelChange
+   
+   
+
+   {
+      get => currentLevel;
+      set
+      {
+         if(currentLevel==value)
+            return;
+
+         currentLevel = value;
+
+         foreach (var config in levelConfigs)
+         {
+            if (config.ChangeLevel==currentLevel)
+            {
+               LoadLevelConfig(config);
+            }
+         }
+      }
+   }
+
+   private void LoadLevelConfig(LevelConfig levelConfig)
+   {
+      roadLength = levelConfig.RoadLength;
+      minDamageOffset = levelConfig.MinDamageOffset;
+      maxDamageOffset = levelConfig.MaxDamageOffset;
+      roadPartLength = levelConfig.RoadPartLength;
+      roadPartWidth = levelConfig.RoadPartWidth;
+   }
+
+   private void LoadLevelPrefabs(LevelPrefabs levelPrefabs)
+   {
+      roadPartPrefab = levelPrefabs.RoadPartPrefab;
+      damagePrefab = levelPrefabs.DamagePrefab;
+      finishPrefab = levelPrefabs.FinishPrefab;
+      playerPrefab = levelPrefabs.PlayerPrefab;
+      glassPrefab = levelPrefabs.GlassPrefab;
+
+   }
+   
    public void GenerateLevel()
    {
+      LevelChange = _levelChange;
       Clear();
       GenerateRoad();
       GenerateDamage();
@@ -30,28 +95,29 @@ public class Level : MonoBehaviour
 
    public void RestartLevel()
    {
+      ReturnGlass();
       DestroyPlayer();
       GeneratePlayer();
    }
-
-
-   public void ReturnGlass()
-   {
-      int count = transform.childCount;
-      for (int i = 0; i < count; i++)
+   
+      public void ReturnGlass()
       {
-         if (transform.GetChild(i).gameObject.CompareTag("Glass"))
+         int count = transform.childCount;
+         for (int i = 0; i < count; i++)
          {
-            GameObject child = transform.GetChild(i).gameObject;
-            Vector3 position = child.transform.localPosition;
-            Destroy(child);
-            GameObject newGlass = Instantiate(glassPrefab, transform);
-            newGlass.transform.localPosition = position;
+            if (transform.GetChild(i).GetChild(0).GetComponent<GlassWall>())
+            {
+               GameObject child = transform.GetChild(i).gameObject;
+               Vector3 position = child.transform.localPosition;
+               Destroy(child);
+               GameObject newGlass = Instantiate(glassPrefab, transform);
+               newGlass.transform.localPosition = position;
+            }
          }
       }
-   }
 
-   private void DestroyPlayer()
+
+      private void DestroyPlayer()
    {
       Destroy(Player.gameObject);
    }
@@ -99,11 +165,15 @@ public class Level : MonoBehaviour
          tempList.Remove(tempValue);
          float damagePosX = -startPosX + damageOffsetX * tempValue;
 
+         //GameObject damage = pool.GetWall();
          GameObject damage = Instantiate(damagePrefab, transform);
          Vector3 localPosition = Vector3.zero;
-         localPosition.x = damagePosX; // -3 -1 1
-         localPosition.z = currentLength; // 14, 75
+         localPosition.x = damagePosX; 
+         localPosition.z = currentLength; 
          damage.transform.localPosition = localPosition;
+         //damage.SetActive(true);
+
+         damage.GetComponentInChildren<MeshRenderer>().material.color=wallConfig.GetRandomColor();
 
          foreach (var temp in tempList)
          {

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a5543d0501466b8c243ea7289f3e5e, type: 3}
+  m_Name: LevelPrefabs
+  m_EditorClassIdentifier: 
+  roadPartPrefab: {fileID: 2615408661829869202, guid: b82f8d5a2bba9b94c8e6a3da9006720c, type: 3}
+  damagePrefab: {fileID: 313604087500512833, guid: 9840c3b5db167bb4fa044b721e9e94fc, type: 3}
+  glassPrefab: {fileID: 313604087500512833, guid: a0a8acf547696f742bbc641ca0d01a5a, type: 3}
+  finishPrefab: {fileID: 2889522031022238164, guid: bcd583dc05daaf444be2b59aa475a58f, type: 3}
+  playerPrefab: {fileID: 1180830644949459255, guid: 04a37b54a67b0084aac53ae219c2dab0, type: 3}

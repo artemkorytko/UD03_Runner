@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,12 +10,12 @@ namespace DefaultNamespace
         private const string RUN = "Run";
         private const string FAIL = "Fail";
         private const string DANCE = "Dance";
-        
-        
+
+
         private static readonly int Run = Animator.StringToHash(RUN);
         private static readonly int Fail = Animator.StringToHash(FAIL);
         private static readonly int Dance = Animator.StringToHash(DANCE);
-        
+
         [SerializeField] private float roadWidth = 3;
         [SerializeField] private float forwardSpeed = 5f;
         [SerializeField] private InputHandler inputHandler;
@@ -93,12 +94,15 @@ namespace DefaultNamespace
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Glass"))
+            GlassWall glassWall = other.GetComponentInParent<GlassWall>();
+
+            if (glassWall)
             {
-                other.gameObject.SetActive(false);
+                glassWall.CrashGlassWall();
             }
-            
-            
+
+
+
         }
 
         private void Died()

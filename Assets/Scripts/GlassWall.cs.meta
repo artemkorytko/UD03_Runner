@@ -3,7 +3,9 @@ guid: b91107f740b7f0644978117a4e92b2c3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - glassWall: {fileID: 313604087500512833, guid: a0a8acf547696f742bbc641ca0d01a5a, type: 3}
+  - fx: {fileID: 1524715861061776, guid: b49ab42338f575a4a9af15e81a985571, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

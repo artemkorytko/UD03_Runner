@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73acb2498de8adf4892b2854123544f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallEffectPrefab: {fileID: 1760920807038068, guid: db50ad2a73e328a4ea71c415c0c62739, type: 3}
+  wallEffectPrefab: {fileID: 1760920807038068, guid: db50ad2a73e328a4ea71c415c0c62739, type: 3}
 --- !u!1 &313604087500512833
 GameObject:
   m_ObjectHideFlags: 0
