@@ -21,6 +21,7 @@ namespace DefaultNamespace
         [SerializeField] private WallConfig wallConfig;
 
         [SerializeField] private WallPool pool;
+        private static readonly int BaseColor = Shader.PropertyToID("_Color");
 
         // private PlayerController _player;
         //
@@ -92,7 +93,7 @@ namespace DefaultNamespace
                 localPosition.z = currentLength; // 14, 75
                 damage.transform.localPosition = localPosition;
                 damage.SetActive(true);
-                damage.GetComponentInChildren<MeshRenderer>().material.color = wallConfig.GetRandomColor();
+                damage.GetComponentInChildren<MeshRenderer>().sharedMaterial.SetColor(BaseColor, wallConfig.GetRandomColor()); //color = wallConfig.GetRandomColor();
 
                 foreach (var temp in tempList) //2 элемента остаётся
                 {
