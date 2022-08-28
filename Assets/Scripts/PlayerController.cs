@@ -59,12 +59,12 @@ public class PlayerController : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent(out FinishComponent finish))
+        if (collision.gameObject.GetComponent<FinishComponent>())
         {
             Finish();
         }
 
-        if (collision.gameObject.TryGetComponent(out WallComponent wall))
+        if (collision.gameObject.GetComponent<WallComponent>())
         {
             Died();
         }

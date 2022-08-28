@@ -3,6 +3,8 @@ using UnityEngine.Advertisements;
 
 public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
 {
+    public static AdsManager Instance { get; private set; }
+    
     [SerializeField] string _androidGameId;
     [SerializeField] string _iOSGameId;
     [SerializeField] bool _testMode = true;
@@ -13,6 +15,15 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
  
     void Awake()
     {
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        
         InitializeAds();
         _interstitial = GetComponent<InterstitialAdExample>();
         _rewarded = GetComponent<RewardedAdsButton>();
@@ -36,5 +47,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
         Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+    }
+
+    public void ShowInterstitial()
+    {
+        _interstitial.ShowAd();
     }
 }

@@ -58,7 +58,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
         {
             Debug.Log("Unity Ads Rewarded Ad Completed");
             // Grant a reward.
-
+            GameManager.Instance.RestartLevel();
             // Load another ad:
             Advertisement.Load(_adUnitId, this);
         }

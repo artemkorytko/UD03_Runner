@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 enum GameState
@@ -11,6 +12,8 @@ enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+    
     [SerializeField] private GameObject StartScreen;
     [SerializeField] private GameObject GameScreen;
     [SerializeField] private GameObject WinScreen;
@@ -61,6 +64,18 @@ public class GameManager : MonoBehaviour
         _currentScreen.SetActive(true);
     }
 
+    private void Awake()
+    {
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
     private void Start()
     {
         _level = GetComponentInChildren<Level>();
@@ -105,7 +120,7 @@ public class GameManager : MonoBehaviour
         _level.Player.OnFinish -= OnWin;
     }
     
-    public void RestartGame()
+    public void RestartLevel()
     {
         _level.Restart();
         State = GameState.Start;
@@ -113,6 +128,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        AdsManager.Instance.ShowInterstitial();
         _level.GenerateLevel();
         State = GameState.Start;
     }
