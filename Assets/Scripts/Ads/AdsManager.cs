@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DefaultNamespace.Ads;
 using UnityEngine;
 using UnityEngine.Advertisements;
-using UnityEngine.UI;
 
 public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
 {
@@ -40,13 +36,5 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
         Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
-    }
-
-    private void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     _interstitialAdExample.ShowAd();
-        // }
     }
 }

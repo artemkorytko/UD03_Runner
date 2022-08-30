@@ -1,16 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
+using DefaultNamespace.Ads;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+
     [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject gameScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject failScreen;
+    [SerializeField] private AnalyticManager analyticManager;//
+    private InterstitialAdExample _interstitialAdExample;
+    private RewardedAdsButton _rewardedAdsButton;
 
     private Level _level;
     enum GameState
@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
         TurnOffAllScreens();
         State = GameState.Start;
         _level.GenerateLevel();
+        _interstitialAdExample = FindObjectOfType<AdsManager>().GetComponent<InterstitialAdExample>();
+        _rewardedAdsButton = FindObjectOfType<AdsManager>().GetComponent<RewardedAdsButton>();
     }
 
     private void TurnOffAllScreens()
@@ -106,13 +108,17 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        _interstitialAdExample.ShowAd();
         _level.RestartLevel();
         StartGame();
+        analyticManager.OnLevelStart();
     }
 
     public void NextLevel()
     {
+        _rewardedAdsButton.ShowAd();
         _level.GenerateLevel();
         StartGame();
+        analyticManager.OnLevelWin();
     }
 }

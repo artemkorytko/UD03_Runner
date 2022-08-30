@@ -662,6 +662,7 @@ MonoBehaviour:
   gameScreen: {fileID: 478474774}
   winScreen: {fileID: 373234049}
   failScreen: {fileID: 40966152}
+  analyticManager: {fileID: 1801956990}
 --- !u!4 &553206812
 Transform:
   m_ObjectHideFlags: 0
@@ -1718,7 +1719,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b69835764a871964cb63a60abdefaf50, type: 2}
   - {fileID: 11400000, guid: 16b92c9c1cfce1a4eb65abebe7448ed2, type: 2}
   - {fileID: 11400000, guid: b68d8253d394a2646bcf96461df3795b, type: 2}
-  _levelChange: 3
+  _levelChange: 1
   _levelPrefabs: {fileID: 11400000, guid: acebd55ed0aafa54f8f20f42af05ec03, type: 2}
   wallConfig: {fileID: 11400000, guid: 6e4a1debd537c2e49ae49afc9eaada0f, type: 2}
 --- !u!114 &2084686118
