@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        _interstitialAdExample.ShowAd();
+        _rewardedAdsButton.ShowAd();
         _level.RestartLevel();
         StartGame();
         analyticManager.OnLevelStart();
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        _rewardedAdsButton.ShowAd();
+        _interstitialAdExample.ShowAd();
         _level.GenerateLevel();
         StartGame();
         analyticManager.OnLevelWin();
