@@ -621,11 +621,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93c994483327a949840ab5da5e4aac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPrefabs: {fileID: 11400000, guid: 53b3da9a44bbe1841946995499ab34ea, type: 2}
+  levelPrefabs:
+    m_AssetGUID: 53b3da9a44bbe1841946995499ab34ea
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   levelConfigs:
-  - {fileID: 11400000, guid: c0e08de1351337e42ba1cb3caa6dedc7, type: 2}
-  - {fileID: 11400000, guid: 35768d845a6aa1e418e1aaa68460d1b5, type: 2}
-  - {fileID: 11400000, guid: 44d36a309cdd47742837ff01ef32355b, type: 2}
+  - m_AssetGUID: c0e08de1351337e42ba1cb3caa6dedc7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 35768d845a6aa1e418e1aaa68460d1b5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 44d36a309cdd47742837ff01ef32355b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   difficulty: 1
 --- !u!1 &705507993
 GameObject:

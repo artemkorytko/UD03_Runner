@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Configs;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.AddressableAssets;
+
 
 public enum LevelDifficulty
 {
@@ -11,12 +13,10 @@ public enum LevelDifficulty
     Hard
 }
 
-
 public class Level : MonoBehaviour
 {
-    [SerializeField] private LevelPrefabs levelPrefabs;
-    [SerializeField] private LevelConfig[] levelConfigs;
-
+    [SerializeField] private AssetReference levelPrefabs;
+    [SerializeField] private AssetReference[] levelConfigs;
     [SerializeField] private LevelDifficulty difficulty;
 
     private LevelDifficulty _currentDifficulty;
@@ -31,7 +31,7 @@ public class Level : MonoBehaviour
             
             _currentDifficulty = value;
             
-            foreach (var config in levelConfigs)
+            foreach (var config in _levelConfigs)
             {
                 if (config.Difficulty == _currentDifficulty)
                 {
@@ -44,6 +44,8 @@ public class Level : MonoBehaviour
     public PlayerController Player { get; private set; }
     
     private List<NonDamageWall> _savedObjects;
+    private LevelPrefabs _levelPrefabs;
+    private LevelConfig[] _levelConfigs;
     private int _roadLenght;
     private float _minDamageOffset;
     private float _maxDamageOffset;
@@ -57,12 +59,14 @@ public class Level : MonoBehaviour
 
     private void Awake()
     {
+        _levelConfigs = new LevelConfig[levelConfigs.Length];
         _savedObjects = new List<NonDamageWall>();
-        ReadPrefabConfig();
     }
 
-    public void GenerateLevel()
+    public async void GenerateLevel()
     {
+        if (!_levelPrefabs)
+            await LoadAssets();
         Difficulty = difficulty;
         _savedObjects.Clear();
         ClearLevel();
@@ -78,13 +82,31 @@ public class Level : MonoBehaviour
         Player.SetIdle();
     }
 
+    private async Task LoadAssets()
+    {
+        print("load assets");
+        var prefabHandle = Addressables.LoadAssetAsync<LevelPrefabs>(levelPrefabs);
+        await prefabHandle.Task;
+        _levelPrefabs = prefabHandle.Result;
+        Addressables.Release(prefabHandle);
+
+        for (int i = 0; i < _levelConfigs.Length; i++)
+        {
+            var configHandle = Addressables.LoadAssetAsync<LevelConfig>(levelConfigs[i]);
+            await configHandle.Task;
+            _levelConfigs[i] = configHandle.Result;
+            Addressables.Release(configHandle);
+        }
+        ReadPrefabConfig();
+    }
+    
     private void ReadPrefabConfig()
     {
-        _roadPartPrefab = levelPrefabs.RoadPart;
-        _damagePrefab = levelPrefabs.DamageWall;
-        _noDamagePrefab = levelPrefabs.NoDamageWall;
-        _finishPrefab = levelPrefabs.Finish;
-        _playerPrefab = levelPrefabs.Player;
+        _roadPartPrefab = _levelPrefabs.RoadPart;
+        _damagePrefab = _levelPrefabs.DamageWall;
+        _noDamagePrefab = _levelPrefabs.NoDamageWall;
+        _finishPrefab = _levelPrefabs.Finish;
+        _playerPrefab = _levelPrefabs.Player;
     } 
     private void ReadLevelConfig(LevelConfig config)
     {
