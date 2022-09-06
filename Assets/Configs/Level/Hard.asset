@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3851d55eb9347ec49a6d444df43625ea, type: 3}
+  m_Name: Hard
+  m_EditorClassIdentifier: 
+  difficults: 3
+  roadLenght: 15
+  minDamageOffset: 2
+  maxDamageOffset: 5
+  roadPartLenght: 5
+  roadPartWidth: 6
+  countOfWallsInLine: 3
+  roadPartPrefab: {fileID: 799831193167721856, guid: 2df36fed9a5be5e46a7f866916871c0d, type: 3}
+  finishPrefab: {fileID: 6257690904410054877, guid: d86e4a21fd7a65045a21bf6573d99977, type: 3}

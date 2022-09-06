@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 486ce436f5258524b85cd6feff1107b6
+  m_SerializeEntries:
+  - m_GUID: 77db6376d25b72544a6824266dfab708
+    m_Address: EasyConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - Configs
+  - m_GUID: fd87e9aab64cab44f9f85643f5f9adf7
+    m_Address: HardConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - Configs
+  - m_GUID: 1aed61a1495e9c5468f522587a9e66c8
+    m_Address: NormalConfig
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - Configs
+  - m_GUID: b955ed8020b41fd409718ce4961e4b53
+    m_Address: DamagePrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - Prefabs
+  - m_GUID: ccdf2bda04661214b923b606fe661071
+    m_Address: DestrWallPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - Prefabs
+  - m_GUID: 559daf9767c64b34ca4ff89ec2975dc9
+    m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - Prefabs
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 9e5d300de966d354d90646db6465c42e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9254a3a8d39fa8940bf252ccd3496360, type: 2}
+    - {fileID: 11400000, guid: 58f22b1f0e5b71a44af0f8ab3b559cb6, type: 2}

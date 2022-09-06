@@ -302,17 +302,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c720dd33f06de4e4289e93bb03f192b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadLenght: 15
-  minDamageOffset: 2
-  maxDamageOffset: 5
-  roadPartLenght: 5
-  roadPartWidth: 6
-  countOfWallsInLine: 3
-  roadPartPrefab: {fileID: 2807437397855588073, guid: befbabba26b85db448bc5b9517625d10, type: 3}
-  damagePrefab: {fileID: 3184097509154074278, guid: b955ed8020b41fd409718ce4961e4b53, type: 3}
-  finishPrefab: {fileID: 7373857775079895253, guid: bc7221e2487c6d6428c0531548f68c58, type: 3}
-  playerPrefab: {fileID: 2859866693823943261, guid: 559daf9767c64b34ca4ff89ec2975dc9, type: 3}
-  destrWallPrefab: {fileID: 4671180221690073932, guid: ccdf2bda04661214b923b606fe661071, type: 3}
+  difficults: 1
+  difficultConfigsReferences:
+  - m_AssetGUID: 77db6376d25b72544a6824266dfab708
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 1aed61a1495e9c5468f522587a9e66c8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fd87e9aab64cab44f9f85643f5f9adf7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  damagePrefabReference:
+    m_AssetGUID: b955ed8020b41fd409718ce4961e4b53
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  playerPrefabReference:
+    m_AssetGUID: 559daf9767c64b34ca4ff89ec2975dc9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  destrWallPrefabReference:
+    m_AssetGUID: ccdf2bda04661214b923b606fe661071
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!1 &458820536
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458820536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1256.2548, y: 163.76897, z: -3211.2031}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
