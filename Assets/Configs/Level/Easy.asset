@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   difficults: 1
-  roadLenght: 7
+  roadLenght: 15
   minDamageOffset: 2
   maxDamageOffset: 5
   roadPartLenght: 5
