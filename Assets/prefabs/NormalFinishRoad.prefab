@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6709007531048982691}
   - component: {fileID: 1580254477674339017}
   m_Layer: 0
-  m_Name: FinishRoad
+  m_Name: NormalFinishRoad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
