@@ -42,8 +42,6 @@ public class Level : MonoBehaviour
         get => difficults;
         set
         {
-            // if (difficults == value)
-            //     return;
             difficults = value;
             foreach (Base difConfig in _difficultConfigs)
             {
