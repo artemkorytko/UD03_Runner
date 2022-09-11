@@ -1,110 +1,39 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Level_configs;
 using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using Random = UnityEngine.Random;
-using Task = System.Threading.Tasks.Task;
 
-
-public enum Difficults
-{
-    None,
-    Easy,
-    Normal,
-    Hard
-}
 public class Level : MonoBehaviour
 {
+    
+    
+    [SerializeField] private int roadLenght = 15;
+    [SerializeField] private float minDamageOffset = 2f;
+    [SerializeField] private float maxDamageOffset = 5f;
+    
+    [SerializeField] private float roadPartLenght = 5f;
+    [SerializeField] private float roadPartWidth = 6f;
 
-    [SerializeField] private Difficults difficults;
-    [SerializeField] private AssetReference[] difficultConfigsReferences;
-    [SerializeField] private AssetReference damagePrefabReference;
-    [SerializeField] private AssetReference playerPrefabReference;
-    [SerializeField] private AssetReference destrWallPrefabReference;
+    [SerializeField] private int countOfWallsInLine = 3;
 
-    private GameObject _damagePrefab;
-    private GameObject _playerPrefab;
-    private GameObject _destrWallPrefab;
+    [SerializeField] private GameObject roadPartPrefab;
+    [SerializeField] private GameObject damagePrefab;
+    [SerializeField] private GameObject finishPrefab;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject destrWallPrefab;
 
-    private Base[] _difficultConfigs;
-    private Base _currentDifficult;
-
+    //private PlayerController _player;
+    //public PlayerController Player => _player;
     public PlayerController Player { get; private set; }
-    
 
-    private Difficults Difficults
+    public void GenerateLevel()
     {
-        get => difficults;
-        set
-        {
-            // if (difficults == value)
-            //     return;
-            difficults = value;
-            foreach (Base difConfig in _difficultConfigs)
-            {
-                if (difConfig.Difficult == difficults)
-                {
-                    _currentDifficult = difConfig;
-                    break;
-                }
-            }
-        }
-    }
-    
-
-    public async void GenerateLevel()
-    {
-        await GetReferences();
-        Difficults = difficults;
         Clear();
         GenerateRoad();
         GenerateDamage();
         GeneratePlayer();
     }
 
-    private async Task GetReferences()
-    {
-        _difficultConfigs = new Base[difficultConfigsReferences.Length];
-        for (int i = 0; i < _difficultConfigs.Length; i++)
-        {
-            AsyncOperationHandle<Base> handle = difficultConfigsReferences[i].LoadAssetAsync<Base>();
-            await handle.Task;
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                _difficultConfigs[i] = handle.Result;
-                Addressables.Release(handle);
-            }
-        }
-
-        AsyncOperationHandle<GameObject> damPref = damagePrefabReference.LoadAssetAsync<GameObject>();
-        await damPref.Task;
-        if (damPref.Status == AsyncOperationStatus.Succeeded)
-        {
-            _damagePrefab = damPref.Result;
-            Addressables.Release(damPref);
-        }
-        
-        AsyncOperationHandle<GameObject> playerPref = playerPrefabReference.LoadAssetAsync<GameObject>();
-        await playerPref.Task;
-        if (playerPref.Status == AsyncOperationStatus.Succeeded)
-        {
-            _playerPrefab = playerPref.Result;
-            Addressables.Release(playerPref);
-        }
-        
-        AsyncOperationHandle<GameObject> destrWallPref = destrWallPrefabReference.LoadAssetAsync<GameObject>();
-        await destrWallPref.Task;
-        if (destrWallPref.Status == AsyncOperationStatus.Succeeded)
-        {
-            _destrWallPrefab = destrWallPref.Result;
-            Addressables.Release(destrWallPref);
-        }
-    }
     private void Clear()
     {
         Player = null;
@@ -118,46 +47,47 @@ public class Level : MonoBehaviour
     {
         Vector3 roadLocalPosition = Vector3.zero;
 
-        for (int i = 0; i < _currentDifficult.RoadLenght; i++)
+        for (int i = 0; i < roadLenght; i++)
         {
-            GameObject roadPart = Instantiate(_currentDifficult.RoadPartPrefab, transform);
+            GameObject roadPart = Instantiate(roadPartPrefab, transform);
             roadPart.transform.localPosition = roadLocalPosition;
-            roadLocalPosition.z += _currentDifficult.RoadPartLenght;
+            roadLocalPosition.z += roadPartLenght;
         }
 
-        GameObject finish = Instantiate(_currentDifficult.FinishPrefab, transform);
+        GameObject finish = Instantiate(finishPrefab, transform);
         finish.transform.localPosition = roadLocalPosition;
     }
 
     private void GenerateDamage()
     {
-        float fullLenght = _currentDifficult.RoadLenght * _currentDifficult.RoadPartLenght;
-        float currentLenght = _currentDifficult.RoadPartLenght * 2;
-        float damageOffsetX = _currentDifficult.RoadPartWidth / 3;
-        float startPosX = _currentDifficult.RoadPartWidth * 0.5f;
+        float fullLenght = roadLenght * roadPartLenght;
+        float currentLenght = roadPartLenght * 2;
+        float damageOffsetX = roadPartWidth / 3;
+        float startPosX = roadPartWidth * 0.5f;
 
         while (currentLenght<fullLenght)
         {
-            float zOffset = Random.Range(_currentDifficult.MinDamageOffset, _currentDifficult.MaxDamageOffset) + _currentDifficult.MinDamageOffset;
+            float zOffset = Random.Range(minDamageOffset, maxDamageOffset) + minDamageOffset;
             currentLenght += zOffset;
             currentLenght = Mathf.Clamp(currentLenght, 0f, fullLenght);
 
-            int damagePosition = Random.Range(0, _currentDifficult.CountOfWallsInLine);
-            InstantiateWall(_damagePrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
+            int damagePosition = Random.Range(0, countOfWallsInLine);
+            InstantiateWall(damagePrefab, damagePosition, startPosX, damageOffsetX, currentLenght);
 
             List<int> positions = new List<int>();
-            for (int i = 0; i < _currentDifficult.CountOfWallsInLine; i++)
+            for (int i = 0; i < countOfWallsInLine; i++)
             {
                 if (i!=damagePosition)
                 {
                     positions.Add(i);
                 }
             }
-            
+
             foreach (int pos in positions)
             {
-                InstantiateWall(_destrWallPrefab, pos, startPosX, damageOffsetX, currentLenght);
+                InstantiateWall(destrWallPrefab, pos, startPosX, damageOffsetX, currentLenght);
             }
+            
         }
     }
 
@@ -167,8 +97,8 @@ public class Level : MonoBehaviour
         {
             Destroy(Player.gameObject);
         }
-        GameObject player = Instantiate(_playerPrefab, transform);
-        player.transform.localPosition = new Vector3(0, 0, _currentDifficult.RoadPartLenght * 0.5f);
+        GameObject player = Instantiate(playerPrefab, transform);
+        player.transform.localPosition = new Vector3(0, 0, roadPartLenght * 0.5f);
         Player = player.GetComponent<PlayerController>();
     }
 
@@ -199,7 +129,7 @@ public class Level : MonoBehaviour
         {
             Vector3 position = wall.transform.localPosition;
             Destroy(wall);
-            GameObject newWall = Instantiate(_destrWallPrefab, transform);
+            GameObject newWall = Instantiate(destrWallPrefab, transform);
             newWall.transform.localPosition = position;
         }
     }
