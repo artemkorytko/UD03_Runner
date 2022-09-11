@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   difficults: 2
-  roadLenght: 15
+  roadLenght: 11
   minDamageOffset: 2
   maxDamageOffset: 5
   roadPartLenght: 5
